@@ -152,6 +152,7 @@ public class LogLoader {
     @Override
     public Object deserialize(JsonElement json, Type klass, JsonDeserializationContext jdContext)
         throws JsonParseException {
+      Debug.log("deserializing json: " + json);
       return getLogLoader().getParser().deserializeEvent(json, klass, jdContext);
     }
 

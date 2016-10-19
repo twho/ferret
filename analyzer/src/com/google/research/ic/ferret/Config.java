@@ -75,7 +75,7 @@ public class Config {
   // PARAMETERS
 
   // General
-  public static boolean debug = false;
+  public static boolean debug = true;
   public static String logDir = DEFAULT_LOG_DIR;
   public static String logType = DEFAULT_LOG_TYPE;
 
@@ -88,7 +88,7 @@ public class Config {
  
   // Eval Framework params
   public static String queryDir = null; // if unspecified, EvalFramework will do crossvalidation
-  public static String tagList = null; // if unspecificed, EvalFramework will use all tags
+  public static String tagList = null; // if unspecified, EvalFramework will use all tags
   
   // Search algo params
     

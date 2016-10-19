@@ -54,7 +54,7 @@ public class DeviceEventReceiver {
   }
   
   public static void startServer() {
-    
+    Debug.log("starting server to talk to device");
     if (theReceiver == null) {
       theReceiver = new DeviceEventReceiver();
       theReceiver.retain();

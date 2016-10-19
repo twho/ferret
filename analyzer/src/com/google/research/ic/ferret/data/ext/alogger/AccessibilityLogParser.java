@@ -191,6 +191,8 @@ public class AccessibilityLogParser implements Parser {
   
   @Override
   public Event deserializeEvent(JsonElement json, Type klass, JsonDeserializationContext jdContext) {
+    Debug.log("deserializing " + json + 
+        "\n and coming up with " + jdContext.deserialize(json, AccessibilityLogEvent.class));
     return jdContext.deserialize(json, AccessibilityLogEvent.class);    
   }
 

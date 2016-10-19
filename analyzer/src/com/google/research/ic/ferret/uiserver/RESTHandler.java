@@ -67,6 +67,7 @@ public class RESTHandler {
   @Produces(MediaType.APPLICATION_JSON)
   public String pollForEvents(@QueryParam("reset") boolean shouldReset) {
     Session session = Session.getCurrentSession();
+    Debug.log("started session"); 
     
     if (shouldReset) {
       session.resetCurrentQuery();
@@ -94,7 +95,7 @@ public class RESTHandler {
   }
   
   @POST
-  @Path("getDetailedResultsForQuery")
+  @Path("	")
   @Produces(MediaType.APPLICATION_JSON)
   public String getDetailedResultsForQuery(
       @FormParam("q") String querySpec,
@@ -153,11 +154,14 @@ public class RESTHandler {
     Debug.log("Received queryString: " + querySpec);
     Snippet currentQuery = null;
     if (querySpec.equals("current")) {
+      Debug.log("current, using session file");
       currentQuery =  Session.getCurrentSession().getCurrentQuery();      
     } else {
+      Debug.log("not current, using JSON from front end" + querySpec);
       currentQuery = LogLoader.getLogLoader().getGson().fromJson(querySpec, Snippet.class);
+      Debug.log("after loading, currentQuery=" + currentQuery);
     }
-    Debug.log("Received query: " + currentQuery);
+    Debug.log("Getting summary results, Received query: " + currentQuery);
     if (currentQuery != null && !currentQuery.equals("")) {
 
       long t = System.currentTimeMillis();

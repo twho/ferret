@@ -84,6 +84,7 @@ public class Session {
     };
     
     if (deviceMode) {
+      Debug.log("getting the receiver");
       DeviceEventReceiver.getReceiver().addDemoEventListener(deListener);
     }
     inited = true;
@@ -135,6 +136,7 @@ public class Session {
   public static Session getCurrentSession() {
     if (currentSession == null) {
       currentSession = new Session();
+      currentSession.init();
     }
     return currentSession;
   }
