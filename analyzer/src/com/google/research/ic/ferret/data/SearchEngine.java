@@ -272,14 +272,14 @@ public class SearchEngine {
         // so we take a closer look at each location to compile a non-overlapping list of matches
         
         Collections.sort(locatedNGrams);
-        Debug.log("\n\n****Looking at log: " + log.toString() + "****");
-        Debug.log("LocatedNGrams: " + locatedNGrams);
+        //Debug.log("\n\n****Looking at log: " + log.toString() + "****");
+        //Debug.log("LocatedNGrams: " + locatedNGrams);
         CandidateCollector canColl = extractCandidates(locatedNGrams, query.size());
-        Debug.log("Candidates: " + canColl.toString());
+        //Debug.log("Candidates: " + canColl.toString());
         NeighborhoodCollector neighColl = assignNeighborhoods(canColl, query.size());
-        Debug.log("Neighborhoods: " + neighColl.toString());
+        //Debug.log("Neighborhoods: " + neighColl.toString());
         PromotionCollector promColl = electNeighborhoodRepresentatives(neighColl, query, log, queryNGramLocations);
-        Debug.log("Promotions: " + promColl.toString());
+        //Debug.log("Promotions: " + promColl.toString());
         urs.mergeResults(admitResults(promColl, query, log));
         pruneResults(urs);
       }

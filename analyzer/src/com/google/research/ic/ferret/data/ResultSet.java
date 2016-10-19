@@ -15,17 +15,17 @@
  *******************************************************************************/
 package com.google.research.ic.ferret.data;
 
-import com.google.research.ic.ferret.data.attributes.Attribute;
-import com.google.research.ic.ferret.data.attributes.AttributeManager;
-import com.google.research.ic.ferret.data.attributes.Bin;
-import com.google.research.ic.ferret.test.Debug;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.google.research.ic.ferret.data.attributes.Attribute;
+import com.google.research.ic.ferret.data.attributes.AttributeManager;
+import com.google.research.ic.ferret.data.attributes.Bin;
+import com.google.research.ic.ferret.test.Debug;
 
 /**
  * A collection of results returned by the search engine.
@@ -91,6 +91,7 @@ public class ResultSet {
     if (attrSummaries == null) {
       computeSummaries();
     }
+    Debug.log("AttrSummaries:" + attrSummaries.toString());
     return attrSummaries;
   }
   

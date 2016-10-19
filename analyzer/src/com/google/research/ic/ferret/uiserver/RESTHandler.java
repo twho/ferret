@@ -169,6 +169,7 @@ public class RESTHandler {
       Session.getCurrentSession().setCurrentResultSet(urs);
       Debug.log("Finished searching after " + ((System.currentTimeMillis() - t)/1000.0) + " secs");
 
+      
       Debug.log("Query is: ");
       if (Config.debug) Shell.printEvents(currentQuery, 0, currentQuery.size());
             
@@ -181,6 +182,8 @@ public class RESTHandler {
       
       if (strongMatches != null) {
         t = System.currentTimeMillis();
+        urs.getStrongMatches().getAttributeSummaries(); // force computation of AttrSummaries 
+                                                        //TODO: there has to be a more elegant way!
         frs = strongMatches.filter(new FilterSpec(-1.0, -1.0, -1));
         resultSize = 0;
         if (frs.getResults() != null) {
@@ -195,6 +198,7 @@ public class RESTHandler {
 
       if (elongations != null) {
         t = System.currentTimeMillis();  
+        urs.getElongatedMatches().getAttributeSummaries(); // force computation of AttrSummaries
         frs = elongations.filter(new FilterSpec(-1.0, -1.0, -1));
         resultSize = 0;
         if (frs.getResults() != null) {
@@ -209,6 +213,7 @@ public class RESTHandler {
 
       if (altEndMatches != null) {
         t = System.currentTimeMillis();
+        urs.getAltEndingMatches().getAttributeSummaries(); // force computation of AttrSummaries        
         frs = altEndMatches.filter(new FilterSpec(-1.0, -1.0, -1));
         resultSize = 0;
         if (frs.getResults() != null) {    
@@ -223,6 +228,7 @@ public class RESTHandler {
 
       if (weakMatches != null) {
         t = System.currentTimeMillis();
+        urs.getWeakMatches().getAttributeSummaries(); // force computation of AttrSummaries
         frs = weakMatches.filter(new FilterSpec(-1.0, -1.0, -1));
         if (frs.getResults() != null) {    
           resultSize = frs.getResults().size();

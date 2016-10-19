@@ -264,6 +264,7 @@ public class FilteredResultSet extends ResultSet {
   private void computeSummaries() {
     if (getResults().size() > 0) {
       attrSummaries = AttributeManager.getManager().computeSummaries(this);
+      Debug.log("AttrSummaries in FRS: " + attrSummaries);
     }
   }
   

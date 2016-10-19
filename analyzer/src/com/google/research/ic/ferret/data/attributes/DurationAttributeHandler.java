@@ -87,47 +87,52 @@ public class DurationAttributeHandler implements AttributeHandler {
     
     int i = 0;
     for (SubSequence s : subSequences) {
-      durations[i++] = (Date) s.getSnippet().getAttribute(KEY).getValue();
+      Attribute attr =  s.getSubSnippet().getAttribute(KEY);
+      if (attr != null) {
+        durations[i++] = (Date) s.getSubSnippet().getAttribute(KEY).getValue();
+      }
     }
     
     Arrays.sort(durations); 
-    Date min = durations[0];
-    Date max = new Date(durations[durations.length - 1].getTime() + 1); // add a ms
-    long range = max.getTime() - min.getTime();
     
-    //make some bins
-    Date[] binDividers = new Date[numBins + 1];
-    binDividers[0] = min;
-    binDividers[binDividers.length - 1] = max;
-    for (int j = 1; j < binDividers.length - 1; j++) {
-      long divider = min.getTime() + j * range / numBins;
-      binDividers[j] = new Date(divider);
-    }
-    
-    int[] binCounters = new int[numBins];
-    Arrays.fill(binCounters, 0);
-    for (Date d : durations) {
-      for (int k = 0; k < binDividers.length; k++) {
-        if (d.after(binDividers[k]) && d.before(binDividers[k+1])) {
-          binCounters[k]++;
+    if (durations.length > 0) {
+      Date min = durations[0];
+      Date max = new Date(durations[durations.length - 1].getTime() + 1); // add a ms
+      long range = max.getTime() - min.getTime();
+      
+      //make some bins
+      Date[] binDividers = new Date[numBins + 1];
+      binDividers[0] = min;
+      binDividers[binDividers.length - 1] = max;
+      for (int j = 1; j < binDividers.length - 1; j++) {
+        long divider = min.getTime() + j * range / numBins;
+        binDividers[j] = new Date(divider);
+      }
+      
+      int[] binCounters = new int[numBins];
+      Arrays.fill(binCounters, 0);
+      for (Date d : durations) {
+        for (int k = 0; k < binDividers.length; k++) {
+          if (d.after(binDividers[k]) && d.before(binDividers[k+1])) {
+            binCounters[k]++;
+          }
         }
       }
+  
+      for (int m = 0; m < numBins; m++) {
+  
+        SimpleDateFormat format = new SimpleDateFormat("H:mm:ss");
+        format.setTimeZone(TimeZone.getTimeZone("UTC"));
+        StringBuilder sb = new StringBuilder();
+              
+        sb.append(format.format(binDividers[m]));
+        sb.append("-");
+        sb.append(format.format(binDividers[m+1]));
+              
+        binList.add(new Bin(sb.toString(), binDividers[m].getTime(), binDividers[m+1].getTime(), 
+            DateTimeAttribute.TYPE, binCounters[m]));
+      }
     }
-
-    for (int m = 0; m < numBins; m++) {
-
-      SimpleDateFormat format = new SimpleDateFormat("H:mm:ss");
-      format.setTimeZone(TimeZone.getTimeZone("UTC"));
-      StringBuilder sb = new StringBuilder();
-            
-      sb.append(format.format(binDividers[m]));
-      sb.append("-");
-      sb.append(format.format(binDividers[m+1]));
-            
-      binList.add(new Bin(sb.toString(), binDividers[m].getTime(), binDividers[m+1].getTime(), 
-          DateTimeAttribute.TYPE, binCounters[m]));
-    }
-    
     return binList;
   }
 

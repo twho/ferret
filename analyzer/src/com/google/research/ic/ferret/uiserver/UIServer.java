@@ -32,6 +32,9 @@ import com.google.research.ic.ferret.Config;
 import com.google.research.ic.ferret.data.LogLoader;
 import com.google.research.ic.ferret.data.SearchEngine;
 import com.google.research.ic.ferret.data.Snippet;
+import com.google.research.ic.ferret.data.attributes.AttributeManager;
+import com.google.research.ic.ferret.data.attributes.DurationAttributeHandler;
+import com.google.research.ic.ferret.data.attributes.UserNameAttributeHandler;
 import com.google.research.ic.ferret.test.Debug;
 
 public class UIServer {
@@ -94,6 +97,8 @@ public class UIServer {
               }
             }
           }     
+          //AttributeManager.getManager().addHandler(new UserNameAttributeHandler());
+          AttributeManager.getManager().addHandler(new DurationAttributeHandler());
           server.join();
 
         } catch (Exception e) {
