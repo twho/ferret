@@ -60,4 +60,13 @@
         android:text="Status goes here"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
+    <TextView
+        android:id="@+id/textSignInStatusView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="40dp"
+        android:text="Account status goes here"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
 </LinearLayout>

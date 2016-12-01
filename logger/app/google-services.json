@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "89388749487",
+    "firebase_url": "https://ferret-logger-f1844.firebaseio.com",
+    "project_id": "ferret-logger-f1844",
+    "storage_bucket": "ferret-logger-f1844.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:89388749487:android:868a1961ec998a88",
+        "android_client_info": {
+          "package_name": "com.google.research.ic.alogger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "89388749487-jul1aj615jlujmt7u82vvpgaf71p3619.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAizCSKEMEJnf2V7wzck8Z8_I0NqEeqTrE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
