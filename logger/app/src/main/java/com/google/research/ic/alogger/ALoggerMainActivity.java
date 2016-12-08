@@ -15,7 +15,10 @@
  *******************************************************************************/
 package com.google.research.ic.alogger;
 
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
@@ -71,6 +74,8 @@ public class ALoggerMainActivity extends ActionBarActivity {
                 }
             }
         };
+        Intent intent = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
+        startActivityForResult(intent, 0);
     }
 
     @Override
@@ -126,6 +131,7 @@ public class ALoggerMainActivity extends ActionBarActivity {
         Button startTaskButton = (Button) findViewById(R.id.startTaskButton);
         Button endTaskButton = (Button) findViewById(R.id.endTaskButton);
         Button startSessionButton = (Button) findViewById(R.id.startSessionButton);
+        Button startAppButton = (Button) findViewById(R.id.startApp);
         if (view.equals(startTaskButton)) {
             status.setText("Clicked start task");
             if (!taskIsActive) {
@@ -142,6 +148,27 @@ public class ALoggerMainActivity extends ActionBarActivity {
         } else if (view.equals(startSessionButton)) {
             status.setText("Started new session");
 
+        } else if (view.equals(startAppButton)) {
+//            String urlString="http://twho-test-server.sandcats.io:6080/signup/PA6Bune28MmpduTka";
+//            Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            intent.setPackage("com.android.chrome");
+//            try {
+//                this.startActivity(intent);
+//            } catch (ActivityNotFoundException ex) {
+//                // Chrome browser presumably not installed so allow user to choose instead
+//                intent.setPackage(null);
+//                this.startActivity(intent);
+//            }
+            Intent intent=Intent.makeMainSelectorActivity(Intent.ACTION_MAIN,
+                    Intent.CATEGORY_APP_GALLERY);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//Min SDK 15
+            startActivity(intent);
+//            try {
+//                this.startActivity(intent);
+//            } catch (ActivityNotFoundException noSuchActivity) {
+//                Log.e(TAG, noSuchActivity.getMessage());
+//            }
         }
     }
 

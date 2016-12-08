@@ -42,6 +42,14 @@
         android:text="End Task 1" />
 
     <Button
+        android:id="@+id/startApp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="onClickButtons"
+        android:text="Go to the Application" />
+
+    <Button
         android:id="@+id/openAccessibilitySettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
