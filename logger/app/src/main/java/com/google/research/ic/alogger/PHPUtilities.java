@@ -55,7 +55,7 @@ public class PHPUtilities implements URLConstants {
         return sb.toString();
     }
 
-    public String sendUserLog(String user, String log) throws Exception {
+    public String sendUserLog(String turkId, String taskId, String user, String log) throws Exception {
         String data = initData("user_name", user);
         data = appendData(data, "user_log", log);
         data = appendData(data, "time",  DateFormat.getDateTimeInstance().format(new Date()));

@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ALoggerMainActivity" >
+    tools:context=".ALoggerMainActivity">
 
     <Space
         android:layout_width="wrap_content"
@@ -22,7 +22,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="60dp"
         android:onClick="onClickButtons"
-        android:text="Start Session" />
+        android:text="Start Session"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/startTaskButton"
@@ -31,7 +32,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="5dp"
         android:onClick="onClickButtons"
-        android:text="Start Task 1" />
+        android:text="Start Task 1"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/endTaskButton"
@@ -39,15 +41,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:onClick="onClickButtons"
-        android:text="End Task 1" />
-
-    <Button
-        android:id="@+id/startApp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:onClick="onClickButtons"
-        android:text="Go to the Application" />
+        android:text="End Task 1"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/openAccessibilitySettings"
@@ -76,5 +71,29 @@
         android:layout_marginBottom="40dp"
         android:text="Account status goes here"
         android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <EditText
+        android:id="@+id/ed_turk_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="Enter your turk id here"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <EditText
+        android:id="@+id/ed_task_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="Enter your task id here"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <Button
+        android:id="@+id/startApp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="onClickButtons"
+        android:text="Go to the Application" />
 
 </LinearLayout>

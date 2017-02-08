@@ -15,26 +15,17 @@
  *******************************************************************************/
 package com.google.research.ic.alogger;
 
-import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 
 public class ALoggerMainActivity extends ActionBarActivity {
@@ -49,59 +40,46 @@ public class ALoggerMainActivity extends ActionBarActivity {
     boolean taskIsActive = false;
 
     private TextView accountStatus;
-
-    //Firebase
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private static final String TAG = "EmailPassword";
+    public static EditText edTurk, edTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alogger_main);
         accountStatus = (TextView) findViewById(R.id.textSignInStatusView);
-        mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-            }
-        };
+        edTurk = (EditText) findViewById(R.id.ed_turk_id);
+        edTask = (EditText) findViewById(R.id.ed_task_id);
+
         Intent intent = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
         startActivityForResult(intent, 0);
+    }
+
+    public static String getTurkId(){
+        return edTurk.getText().toString();
+    }
+
+    public static String getCurrentTaskId(){
+        return edTask.getText().toString();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        signIn("tsungwei50521@hotmail.com", "801020");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        signOut();
     }
 
     @Override
@@ -149,26 +127,25 @@ public class ALoggerMainActivity extends ActionBarActivity {
             status.setText("Started new session");
 
         } else if (view.equals(startAppButton)) {
-//            String urlString="http://twho-test-server.sandcats.io:6080/signup/PA6Bune28MmpduTka";
-//            Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            intent.setPackage("com.android.chrome");
-//            try {
-//                this.startActivity(intent);
-//            } catch (ActivityNotFoundException ex) {
-//                // Chrome browser presumably not installed so allow user to choose instead
-//                intent.setPackage(null);
-//                this.startActivity(intent);
-//            }
-            Intent intent=Intent.makeMainSelectorActivity(Intent.ACTION_MAIN,
+            if ("".equalsIgnoreCase(edTask.getText().toString()) && "".equalsIgnoreCase(edTurk.getText().toString())) {
+                AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+                alertDialog.setTitle("Error");
+                alertDialog.setMessage("Please make sure turk id and task id are not empty.");
+                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                alertDialog.show();
+                return;
+            }
+
+            edTask.setEnabled(false);
+            edTurk.setEnabled(false);
+
+            Intent intent = Intent.makeMainSelectorActivity(Intent.ACTION_MAIN,
                     Intent.CATEGORY_APP_GALLERY);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//Min SDK 15
             startActivity(intent);
-//            try {
-//                this.startActivity(intent);
-//            } catch (ActivityNotFoundException noSuchActivity) {
-//                Log.e(TAG, noSuchActivity.getMessage());
-//            }
         }
     }
 
@@ -192,32 +169,6 @@ public class ALoggerMainActivity extends ActionBarActivity {
         DebugLogger.log("Opening Accessibility Settings");
         Intent intent = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
         startActivityForResult(intent, 0);
-    }
-
-    private void signIn(String email, String password) {
-        Log.d(TAG, "signIn:" + email);
-
-//        showProgressDialog();
-
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-
-                        if (!task.isSuccessful()) {
-                            accountStatus.setText("Sign in failed.");
-                            Log.w(TAG, "signInWithEmail:failed", task.getException());
-                        } else {
-                            accountStatus.setText("Sign in successful!");
-                        }
-//                        hideProgressDialog();
-                    }
-                });
-    }
-
-    private void signOut() {
-        mAuth.signOut();
     }
 
     public void updateDemoMode(String s) {

@@ -15,8 +15,6 @@
  *******************************************************************************/
 package com.google.research.ic.alogger;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
 import android.accessibilityservice.AccessibilityService;
@@ -28,8 +26,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -49,9 +45,8 @@ public class ALoggerService extends AccessibilityService {
 
     private ArrayList<EventRecord> eventLog = new ArrayList<>();
 
-    //Firebase
-    DatabaseReference mDatabase;
     private PHPUtilities phpUtilities;
+
 
     public void onAccessibilityEvent(AccessibilityEvent event) {
         //DebugLogger.log("Event: " + event);
@@ -65,15 +60,9 @@ public class ALoggerService extends AccessibilityService {
         EventRecord record = new EventRecord(event, userId, deviceId, this);
         // Write to log
         LogWriter.getLogWriter().writeLog(gson.toJson(record));
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        writeNewLogs("tsungwei50521", gson.toJson(record));
         if (!"".equalsIgnoreCase(gson.toJson(record))){
-            new TaskWriteNewLogs().execute("twho-testing", gson.toJson(record));
+            new TaskWriteNewLogs().execute(ALoggerMainActivity.getTurkId(), ALoggerMainActivity.getCurrentTaskId(), "twho-testing", gson.toJson(record));
         }
-    }
-
-    private void writeNewLogs(String userId, String logs) {
-        mDatabase.child("user testing").child(userId).child("logs").setValue(logs);
     }
 
     @Override
@@ -128,7 +117,7 @@ public class ALoggerService extends AccessibilityService {
         protected String doInBackground(String... params) {
             String result = "";
             try {
-                result = phpUtilities.sendUserLog(params[0], params[1]);
+                result = phpUtilities.sendUserLog(params[0], params[1], params[2], params[3]);
             } catch (Exception e) {
                 Log.e("ALoggerService", e.getMessage());
             }
